@@ -11,9 +11,3 @@ export default function GenresCreate() {
         </>
     )
 }
-
-
-// interface genresCreateProps {
-//     model: genresCreateDTO;
-//     onSubmit?(): genresCreateDTO
-// }
