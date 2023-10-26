@@ -1,27 +1,34 @@
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 import Button from "../utils/Button";
+import FormGroupText from "../utils/FormGroupText";
 import { genresCreateDTO } from "./Genres.Model";
 
 export default function GenresForm(props: genresFormProps) {
     return (
-        <Formik initialValues={props.model}
-            onSubmit={props.onSubmit}
+        <Formik initialValues={{
+            name: ''
+        }}
+            onSubmit={async values => {
+                await new Promise(result => setTimeout(result, 3000));
+                console.log(values);
+            }}
 
 
             validationSchema={Yup.object({
-                name: Yup.string().required('This field is requried')
+                name: Yup.string().required('This field is requried').firstCapLetter()
             })}
         >
-            <Form>
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <Field name="name" className="form-control" />
-                </div>
-                <Button type="submit">Save</Button>
-                <Link className="btn btn-primary" to="/genres">Cancel</Link>
-            </Form>
+
+            {(formikProps) => (
+                <Form>
+                    <FormGroupText field="name" label="Name" />
+                    <Button disabled={formikProps.isSubmitting} type="submit">Save</Button>
+                    <Link className="btn btn-secondary" to="/genres">Cancel</Link>
+                </Form>
+            )}
+
         </Formik>
     )
 }
