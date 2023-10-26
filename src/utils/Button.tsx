@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Button(props: buttonProps) {
     return (
-        <button type={props.type} disabled={props.disabled} onClick={props.onClick} className="btn btn-primary">{props.children}</button>
+        <button type={props.type} disabled={props.disabled} onClick={props.onClick} className={props.className}>{props.children}</button>
     )
 }
 
@@ -12,9 +12,11 @@ interface buttonProps {
     onClick?(): void;
     type: "button" | "submit";
     disabled: boolean;
+    className: string;
 }
 
 Button.defaultProps = {
     type: "button",
-    disabled: false
+    disabled: false,
+    className: "btn btn-secondary"
 }
