@@ -1,6 +1,6 @@
 import GenresForm from "./GenresForm";
 
-export default function GenresEdit(props: genresCreateProps) {
+export default function GenresEdit() {
     return (
         <>
             <h3>Edit Genres</h3>
@@ -11,9 +11,4 @@ export default function GenresEdit(props: genresCreateProps) {
                 }} />
         </>
     )
-}
-
-
-interface genresCreateProps {
-
 }
