@@ -7,13 +7,8 @@ import { genresCreateDTO } from "./Genres.Model";
 
 export default function GenresForm(props: genresFormProps) {
     return (
-        <Formik initialValues={{
-            name: ''
-        }}
-            onSubmit={async values => {
-                await new Promise(result => setTimeout(result, 3000));
-                console.log(values);
-            }}
+        <Formik initialValues={props.model}
+            onSubmit={props.onSubmit}
 
 
             validationSchema={Yup.object({
