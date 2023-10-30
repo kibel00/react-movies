@@ -5,6 +5,7 @@ import Button from "../utils/Button";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 import FormGroupDate from "../utils/FormGroupDate";
+import FormGroupImage from "../utils/FormGroupImage";
 
 export default function ActorsForm(props: actorsFormProps) {
     return (
@@ -20,6 +21,7 @@ export default function ActorsForm(props: actorsFormProps) {
                     <Form>
                         <FormGroupText field="name" label="Name" />
                         <FormGroupDate field="birthDate" label="Date of birth" />
+                        <FormGroupImage field="image" label="Photo" imageUrl="https://m.media-amazon.com/images/M/MV5BNzZiNTEyNTItYjNhMS00YjI2LWIwMWQtZmYwYTRlNjMyZTJjXkEyXkFqcGdeQXVyMTExNzQzMDE0._V1_UY1200_CR85,0,630,1200_AL_.jpg"/>
                         <Button disabled={formikProps.isSubmitting} type="submit">Save</Button>
                         <Link className="btn btn-secondary" to="/actors">Cancel</Link>
                     </Form>
