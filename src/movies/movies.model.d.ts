@@ -6,6 +6,16 @@ export interface movie {
 
 
 
+
+export interface movieCreateDTO {
+    title: string;
+    movieInTheaters: boolean;
+    trailer: string;
+    releaseDate?: Date;
+    poster?: string;
+    posterUrl?: string;
+}
+
 export interface landingPageDTO {
     movieInTheaters?: movie[];
     upComingReleases?: movie[];
