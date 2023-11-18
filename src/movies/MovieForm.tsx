@@ -11,6 +11,7 @@ import MultipleSelector, { multipleSelectorModel } from "../utils/MultipleSelect
 import { genresDTO } from "../genres/Genres.Model";
 import { useState } from "react";
 import { thearesDTO } from "../theares/theares.model";
+import ActorsTypeAhead from "../actors/ActorsTypeAhead";
 
 function MovieForm(props: movieFormProps) {
     const [selectedGenres, setSelectedGenres] = useState(mapGenres(props.selectedGenres));
@@ -61,6 +62,10 @@ function MovieForm(props: movieFormProps) {
                             setselectedTheares(seletect);
                             SetnoSetselectedTheares(noSeletect);
                         }} />
+                    </div>
+
+                    <div className="form-group">
+                        <ActorsTypeAhead actors={[]} />
                     </div>
                     <Button disabled={formikProps.isSubmitting} type="submit">Send</Button>
                     <Link className="btn btn-secondary" to="/">Cancel</Link>
