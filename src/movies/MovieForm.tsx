@@ -7,12 +7,30 @@ import FormGroupDate from "../utils/FormGroupDate";
 import FormGroupImage from "../utils/FormGroupImage";
 import Button from "../utils/Button";
 import { Link } from "react-router-dom";
+import MultipleSelector, { multipleSelectorModel } from "../utils/MultipleSelector";
+import { genresDTO } from "../genres/Genres.Model";
+import { useState } from "react";
 
 function MovieForm(props: movieFormProps) {
+    const [selectedGenres, setSelectedGenres] = useState(mapGenres(props.selectedGenres));
+    const [noSelectedGenres, setnoSelectedGenres] = useState(mapGenres(props.noSelectedGenres));
+
+    function mapGenres(genreArray: { id: number, name: string }[]): multipleSelectorModel[] {
+        return genreArray.map(value => {
+            return { key: value.id, value: value.name }
+        })
+    }
+
     return (
-        <Formik initialValues={props.model} onSubmit={props.onSubmit} validationSchema={Yup.object({
-            title: Yup.string().required('This field is requried').firstCapLetter(),
-        })}>
+        <Formik initialValues={props.model}
+            onSubmit={(value, action) => {
+                
+                value.genresId = selectedGenres.map(value => value.key);
+                props.onSubmit(value, action);
+            }}
+            validationSchema={Yup.object({
+                title: Yup.string().required('This field is requried').firstCapLetter(),
+            })}>
 
 
             {(formikProps) => (
@@ -22,6 +40,14 @@ function MovieForm(props: movieFormProps) {
                     <FormGroupText label="Trailer" field="trailer" />
                     <FormGroupDate label="Release Date" field="releaseDate" />
                     <FormGroupImage label="Poster" field="poster" imageUrl={props.model.posterUrl} />
+
+                    <div className="form-group">
+                        <label>Genres</label>
+                        <MultipleSelector selecteds={selectedGenres} noSeletect={noSelectedGenres} onChange={(seletect, noSeletect) => {
+                            setSelectedGenres(seletect);
+                            setnoSelectedGenres(noSeletect);
+                        }} />
+                    </div>
                     <Button disabled={formikProps.isSubmitting} type="submit">Send</Button>
                     <Link className="btn btn-secondary" to="/">Cancel</Link>
                 </Form>
@@ -34,6 +60,8 @@ function MovieForm(props: movieFormProps) {
 interface movieFormProps {
     model: movieCreateDTO;
     onSubmit(values: movieCreateDTO, action: FormikHelpers<movieCreateDTO>): void;
+    selectedGenres: genresDTO[];
+    noSelectedGenres: genresDTO[];
 }
 
 
