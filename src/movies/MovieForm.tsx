@@ -10,10 +10,15 @@ import { Link } from "react-router-dom";
 import MultipleSelector, { multipleSelectorModel } from "../utils/MultipleSelector";
 import { genresDTO } from "../genres/Genres.Model";
 import { useState } from "react";
+import { thearesDTO } from "../theares/theares.model";
 
 function MovieForm(props: movieFormProps) {
     const [selectedGenres, setSelectedGenres] = useState(mapGenres(props.selectedGenres));
     const [noSelectedGenres, setnoSelectedGenres] = useState(mapGenres(props.noSelectedGenres));
+
+
+    const [selectedTheares, setselectedTheares] = useState(mapGenres(props.seletectTheares));
+    const [noSetselectedTheares, SetnoSetselectedTheares] = useState(mapGenres(props.noSeletectTheares));
 
     function mapGenres(genreArray: { id: number, name: string }[]): multipleSelectorModel[] {
         return genreArray.map(value => {
@@ -24,8 +29,9 @@ function MovieForm(props: movieFormProps) {
     return (
         <Formik initialValues={props.model}
             onSubmit={(value, action) => {
-                
+
                 value.genresId = selectedGenres.map(value => value.key);
+                value.thearesId = selectedTheares.map(value => value.key);
                 props.onSubmit(value, action);
             }}
             validationSchema={Yup.object({
@@ -48,6 +54,14 @@ function MovieForm(props: movieFormProps) {
                             setnoSelectedGenres(noSeletect);
                         }} />
                     </div>
+
+                    <div className="form-group">
+                        <label>Theares</label>
+                        <MultipleSelector selecteds={selectedTheares} noSeletect={noSetselectedTheares} onChange={(seletect, noSeletect) => {
+                            setselectedTheares(seletect);
+                            SetnoSetselectedTheares(noSeletect);
+                        }} />
+                    </div>
                     <Button disabled={formikProps.isSubmitting} type="submit">Send</Button>
                     <Link className="btn btn-secondary" to="/">Cancel</Link>
                 </Form>
@@ -62,6 +76,8 @@ interface movieFormProps {
     onSubmit(values: movieCreateDTO, action: FormikHelpers<movieCreateDTO>): void;
     selectedGenres: genresDTO[];
     noSelectedGenres: genresDTO[];
+    seletectTheares: thearesDTO[];
+    noSeletectTheares: thearesDTO[];
 }
 
 

@@ -15,6 +15,7 @@ export interface movieCreateDTO {
     poster?: string;
     posterUrl?: string;
     genresId?: number[];
+    thearesId?: number[];
 }
 
 export interface landingPageDTO {
