@@ -12,6 +12,7 @@ import { genresDTO } from "../genres/Genres.Model";
 import { useState } from "react";
 import { thearesDTO } from "../theares/theares.model";
 import ActorsTypeAhead from "../actors/ActorsTypeAhead";
+import { movieActorsDTO } from "../actors/actors.model";
 
 function MovieForm(props: movieFormProps) {
     const [selectedGenres, setSelectedGenres] = useState(mapGenres(props.selectedGenres));
@@ -20,6 +21,9 @@ function MovieForm(props: movieFormProps) {
 
     const [selectedTheares, setselectedTheares] = useState(mapGenres(props.seletectTheares));
     const [noSetselectedTheares, SetnoSetselectedTheares] = useState(mapGenres(props.noSeletectTheares));
+
+
+    const [selectedActors, setSelectedActors] = useState<movieActorsDTO[]>([])
 
     function mapGenres(genreArray: { id: number, name: string }[]): multipleSelectorModel[] {
         return genreArray.map(value => {
@@ -65,7 +69,26 @@ function MovieForm(props: movieFormProps) {
                     </div>
 
                     <div className="form-group">
-                        <ActorsTypeAhead actors={[]} />
+                        <ActorsTypeAhead onAdd={actors => {
+                            setSelectedActors(actors);
+                        }} actors={selectedActors}
+                        onRemove={
+                            actor => {
+                                const actors = selectedActors.filter(x => x !== actor);
+                                setSelectedActors(actors);
+                            }
+                        }
+                            ListUI={(actor: movieActorsDTO) =>
+                                <>
+                                    {actor.name} / <input placeholder="Character" type="text" value={actor.character} onChange={e => {
+                                        const index = selectedActors.findIndex(x => x.id === actor.id);
+
+                                        const actors = [...selectedActors];
+                                        actors[index].character = e.currentTarget.value;
+                                        setSelectedActors(actors);
+                                    }} />
+                                </>
+                            } />
                     </div>
                     <Button disabled={formikProps.isSubmitting} type="submit">Send</Button>
                     <Link className="btn btn-secondary" to="/">Cancel</Link>
