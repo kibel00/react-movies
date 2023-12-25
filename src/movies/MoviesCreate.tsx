@@ -9,7 +9,7 @@ export default function MoviesCreate() {
     return (
         <>
             <h3>Create Movies</h3>
-            <MovieForm noSeletectTheares={theares} seletectTheares={[]} selectedGenres={genres} noSelectedGenres={[]} model={{ title: '', movieInTheaters: false, trailer: '' }} onSubmit={values => console.log(values)} />
+            <MovieForm selectedActors={[]} noSeletectTheares={theares} seletectTheares={[]} selectedGenres={genres} noSelectedGenres={[]} model={{ title: '', movieInTheaters: false, trailer: '' }} onSubmit={values => console.log(values)} />
         </>
     )
 }

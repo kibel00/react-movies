@@ -23,7 +23,7 @@ function MovieForm(props: movieFormProps) {
     const [noSetselectedTheares, SetnoSetselectedTheares] = useState(mapGenres(props.noSeletectTheares));
 
 
-    const [selectedActors, setSelectedActors] = useState<movieActorsDTO[]>([])
+    const [selectedActors, setSelectedActors] = useState<movieActorsDTO[]>(props.selectedActors)
 
     function mapGenres(genreArray: { id: number, name: string }[]): multipleSelectorModel[] {
         return genreArray.map(value => {
@@ -37,6 +37,7 @@ function MovieForm(props: movieFormProps) {
 
                 value.genresId = selectedGenres.map(value => value.key);
                 value.thearesId = selectedTheares.map(value => value.key);
+                value.actors = selectedActors;
                 props.onSubmit(value, action);
             }}
             validationSchema={Yup.object({
@@ -106,6 +107,7 @@ interface movieFormProps {
     noSelectedGenres: genresDTO[];
     seletectTheares: thearesDTO[];
     noSeletectTheares: thearesDTO[];
+    selectedActors: movieActorsDTO[];
 }
 
 

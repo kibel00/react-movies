@@ -1,6 +1,6 @@
 import { Typeahead } from "react-bootstrap-typeahead";
 import { movieActorsDTO } from "./actors.model";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 export default function ActorsTypeAhead(props: actorsTypeAheadProps) {
 
@@ -16,7 +16,30 @@ export default function ActorsTypeAhead(props: actorsTypeAheadProps) {
         }
     ]
 
-    const selection: movieActorsDTO[] = []
+    const selection: movieActorsDTO[] = [];
+
+    const [draggedElement, setDraggedElement] = useState<movieActorsDTO | undefined>(undefined)
+
+    function manageDragStart(actor: movieActorsDTO) {
+        setDraggedElement(actor);
+    }
+
+    function manageDragOver(actor: movieActorsDTO) {
+        if (!draggedElement) {
+            return;
+        }
+
+        if (actor.id !== draggedElement.id) {
+            const draggedElementIndex = props.actors.findIndex(x => x.id === draggedElement.id);
+
+            const actorIndex = props.actors.findIndex(x => x.id === actor.id);
+
+            const actors = [...props.actors];
+            actors[actorIndex] = draggedElement;
+            actors[draggedElementIndex] = actor;
+            props.onAdd(actors);
+        }
+    }
     return (
         <>
             <label>Actors</label>
@@ -48,12 +71,15 @@ export default function ActorsTypeAhead(props: actorsTypeAheadProps) {
                 )}
             />
             <ul className="list-group">
-                {props.actors.map(x =>
-                    <li className="list-group-item list-group-item-action" key={x.id}>{props.ListUI(x)}
-                        <span className="badge badge-primary badge-pill" style={{ marginLeft: '0.5rem', cursor: 'pointer' }} onClick={() => props.onRemove(x)}>
-                            X
-                        </span>
-                    </li>)}
+                {props.actors.map(x => <li
+                    draggable={true}
+                    onDragStart={() => manageDragStart(x)}
+                    onDragOver={() => manageDragOver(x)}
+                    className="list-group-item list-group-item-action" key={x.id}>{props.ListUI(x)}
+                    <span className="badge badge-primary badge-pill" style={{ marginLeft: '0.5rem', cursor: 'pointer' }} onClick={() => props.onRemove(x)}>
+                        X
+                    </span>
+                </li>)}
             </ul>
         </>
     )
