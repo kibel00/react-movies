@@ -8,13 +8,13 @@ export default function GenresIndex() {
     useEffect(() => {
         axios.get(genderUrl)
             .then((answer: AxiosResponse<genresDTO[]>) => {
-                console.log(answer.data)
+                console.log(answer.data);
             })
     }, [])
     return (
         <>
-            <h3>Genres Index</h3>
-            <Link to="/genres/create">Create Genres</Link>
+            <h3>Genres</h3>
+            <Link className="btn btn-primary" to="/genres/create">Create Genres</Link>
         </>
     )
 }

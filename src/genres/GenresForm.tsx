@@ -12,7 +12,7 @@ export default function GenresForm(props: genresFormProps) {
 
 
             validationSchema={Yup.object({
-                name: Yup.string().required('This field is requried').firstCapLetter()
+                name: Yup.string().required('This field is requried').max(50, 'Maximum length is 50 characters').firstCapLetter()
             })}
         >
 
